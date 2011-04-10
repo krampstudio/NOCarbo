@@ -30,7 +30,9 @@
 		<%@ include file="header.jsp" %>
 		<div  data-role="content">
 			
-			FOOD
+			<form>
+				<label for=""></label>
+			</form>
 			
 		</div> 
 		<%@ include file="footer.jsp" %>

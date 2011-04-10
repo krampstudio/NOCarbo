@@ -2,10 +2,13 @@ package com.krampstudio.nopas;
 import java.io.IOException;
 
 import javax.jdo.PersistenceManager;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
-@SuppressWarnings("serial")
-public class NoPasServlet extends HttpServlet {
+public class NoPasServlet extends CommonServlet {
+	
+	private static final long serialVersionUID = 5328786455104325630L;
+
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
 		PersistenceManager pm = PMF.getPersistenceManager();
@@ -23,5 +26,14 @@ public class NoPasServlet extends HttpServlet {
         }
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Hello, world");
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		req.getParameter("");
+		
+		super.doPost(req, resp);
 	}
 }
