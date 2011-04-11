@@ -1,4 +1,4 @@
-package com.krampstudio.nopas;
+package com.krampstudio.nopas.model;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;

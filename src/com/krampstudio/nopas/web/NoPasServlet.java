@@ -1,15 +1,20 @@
-package com.krampstudio.nopas;
+package com.krampstudio.nopas.web;
 import java.io.IOException;
 
 import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
+import com.krampstudio.nopas.model.Food;
+import com.krampstudio.nopas.model.PMF;
+
 public class NoPasServlet extends CommonServlet {
 	
 	private static final long serialVersionUID = 5328786455104325630L;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		
+		doCheck(req, resp);
 		
 		PersistenceManager pm = PMF.getPersistenceManager();
 		
@@ -31,6 +36,8 @@ public class NoPasServlet extends CommonServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		doCheck(req, resp);
 		
 		req.getParameter("");
 		

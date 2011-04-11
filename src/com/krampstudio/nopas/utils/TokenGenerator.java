@@ -1,15 +1,12 @@
-package com.krampstudio.nopas;
+package com.krampstudio.nopas.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
-
-
 public class TokenGenerator {
 
-	public static String generateToken(HttpServletRequest request){
+	public static String generateToken(){
 		String hash = null;
 		
 		Random r = new Random();

@@ -1,4 +1,4 @@
-package com.krampstudio.nopas;
+package com.krampstudio.nopas.model;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
