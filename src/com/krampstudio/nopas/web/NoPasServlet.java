@@ -14,7 +14,10 @@ public class NoPasServlet extends CommonServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
-		doCheck(req, resp);
+		initToken(req);
+		resp.sendRedirect("views/index.jsp");
+		
+		/*
 		
 		PersistenceManager pm = PMF.getPersistenceManager();
 		
@@ -30,17 +33,7 @@ public class NoPasServlet extends CommonServlet {
             pm.close();
         }
 		resp.setContentType("text/plain");
-		resp.getWriter().println("Hello, world");
+		resp.getWriter().println("Hello, world");*/
 	}
 	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		
-		doCheck(req, resp);
-		
-		req.getParameter("");
-		
-		super.doPost(req, resp);
-	}
 }

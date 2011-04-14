@@ -13,7 +13,9 @@
 		<servlet-name>NoPas</servlet-name>
 		<url-pattern>/nopas</url-pattern>
 	</servlet-mapping>
-	<welcome-file-list>
-		<welcome-file>views/index.jsp</welcome-file>
+	
+	 <welcome-file-list>
+		<welcome-file>nopas</welcome-file>
 	</welcome-file-list>
+	
 </web-app>

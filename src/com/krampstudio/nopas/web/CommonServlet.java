@@ -1,6 +1,7 @@
 package com.krampstudio.nopas.web;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ public class CommonServlet extends HttpServlet {
 	 * serial number
 	 */
 	private static final long serialVersionUID = -5439371229763395655L;
+	private static final Logger log = Logger.getLogger(CommonServlet.class.getName());
+
 
 	/**
 	 * the current token
@@ -25,11 +28,13 @@ public class CommonServlet extends HttpServlet {
 	 * Initialize the session token
 	 * @param request
 	 */
-	private void initToken(HttpServletRequest request){
+	protected void initToken(HttpServletRequest request){
 		if(token == null){
 			HttpSession session = request.getSession(true);
 			if(session.getAttribute("token") == null){
-				session.setAttribute("token", TokenGenerator.generateToken());
+				String token = TokenGenerator.generateToken();
+				log.info("Token :"+token);
+				session.setAttribute("token", token);
 			}
 			token = (String)session.getAttribute("token");
 		}
@@ -57,7 +62,8 @@ public class CommonServlet extends HttpServlet {
 	protected void doCheck(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		initToken(req);
 		if(!checkToken(req)){
-			resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Security issue");
+			log.info("Token PB");
+			//resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Security issue");
 		}
 	}
 
