@@ -1,6 +1,8 @@
 package com.krampstudio.nopas.web;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.krampstudio.nopas.utils.TokenGenerator;
 
 public class CommonServlet extends HttpServlet {
@@ -16,6 +19,10 @@ public class CommonServlet extends HttpServlet {
 	 * serial number
 	 */
 	private static final long serialVersionUID = -5439371229763395655L;
+	
+	/**
+	 * instantiate the app logger
+	 */
 	private static final Logger log = Logger.getLogger(CommonServlet.class.getName());
 
 
@@ -25,18 +32,29 @@ public class CommonServlet extends HttpServlet {
 	private String token;
 	
 	/**
+	 * The model map of the servlet data
+	 */
+	protected Map<String, Object> model = new HashMap<String, Object>();
+	
+	/**
+	 * Get the model map
+	 * @return the model map
+	 */
+	protected Map<String, Object> getModel(){
+		return this.model;
+	}
+	
+	/**
 	 * Initialize the session token
 	 * @param request
 	 */
 	protected void initToken(HttpServletRequest request){
-		if(token == null){
+		if(this.token == null){
 			HttpSession session = request.getSession(true);
 			if(session.getAttribute("token") == null){
-				String token = TokenGenerator.generateToken();
-				log.info("Token :"+token);
-				session.setAttribute("token", token);
+				session.setAttribute("token", TokenGenerator.generateToken());
 			}
-			token = (String)session.getAttribute("token");
+			this.token = (String)session.getAttribute("token");
 		}
 	}
 	
@@ -48,7 +66,7 @@ public class CommonServlet extends HttpServlet {
 	private boolean checkToken(HttpServletRequest request){
 		if(request.getParameter("token") != null){
 			String sentToken = request.getParameter("token");
-			return (sentToken == token && token != null);
+			return (sentToken.equals(this.token) && this.token != null);
 		}
 		return false;
 	}
@@ -59,12 +77,22 @@ public class CommonServlet extends HttpServlet {
 	 * @param resp
 	 * @throws IOException
 	 */
-	protected void doCheck(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-		initToken(req);
-		if(!checkToken(req)){
-			log.info("Token PB");
-			//resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Security issue");
+	protected void doCheck(HttpServletRequest request, HttpServletResponse resp) throws IOException{
+		initToken(request);
+		if(!checkToken(request)){
+			log.info("\nToken prob:\n" + this.token + "\n"+request.getParameter("token"));
+			resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Security issue");
 		}
+	}
+	
+	/**
+	 * Serialize the model map to a Json string and send it!
+	 * @param resp
+	 * @throws IOException
+	 */
+	protected void sendJson(HttpServletResponse resp) throws IOException{
+		resp.setContentType("text/json");
+		resp.getWriter().print(new Gson().toJson(getModel()));
 	}
 
 }

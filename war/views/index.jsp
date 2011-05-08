@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="/www/styles/style.css" />
 	
 	<script type="text/javascript" src="/www/scripts/jquery.min.js"></script>
+	<script type="text/javascript" src="/www/scripts/controls.js"></script>
 	<script type="text/javascript" src="/www/scripts/jquery.mobile/jquery.mobile.min.js"></script>
 	
 </head>
@@ -31,10 +32,11 @@
 				<div data-role="fieldcontain">
 					<label for="search-food">Search for existing food</label>
 					<input id="search-food" name="search-food" type="text" data-inline="true"  data-type="search" data-inline="true"/>
-					<button id="food-save" name="food-save" data-inline="true" data-theme="b">view all foods</button>
+					<button id="food-save" name="food-save" data-inline="true" data-theme="b" >view all foods</button>
 				</div>
 			</form>
-			<form>
+			<hr />
+			<form id="food-form">
 				<input type="hidden" name="token" value="${sessionScope.token}" />
 				<div data-role="fieldcontain">
 					<label for="food-name">Name</label>
@@ -56,11 +58,10 @@
 					</select> 
 				</div>
 				<div data-role="fieldcontain" >
-					<button id="food-save" name="food-save" data-inline="true" data-theme="b">save</button>
+					<button id="food-save" rel="external" name="food-save" data-inline="true" data-theme="b">save</button>
 					<button id="food-remove" name="food-remove" disabled="true" data-inline="true">Remove</button>
 				</div>
 			</form>
-			
 		</div> 
 		
 		<%@ include file="footer.jsp" %>

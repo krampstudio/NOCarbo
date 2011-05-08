@@ -12,3 +12,4 @@
 		</a>
 	</div>
 </div>
+<div class="message-box" data-role="content" data-theme="e" style="display:none;"></div>
