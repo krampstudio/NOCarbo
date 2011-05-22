@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.mortbay.log.Log;
-
 import com.google.gson.Gson;
 import com.krampstudio.nopas.utils.TokenGenerator;
 
@@ -25,7 +23,7 @@ public class CommonServlet extends HttpServlet {
 	/**
 	 * instantiate the app logger
 	 */
-	private static final Logger log = Logger.getLogger(CommonServlet.class.getName());
+	protected static final Logger log = Logger.getLogger(CommonServlet.class.getName());
 
 
 	/**
@@ -99,7 +97,7 @@ public class CommonServlet extends HttpServlet {
 	protected void sendJson(HttpServletResponse resp, Object data) throws IOException{
 		resp.setContentType("text/json");
 		String json = new Gson().toJson(data);
-		Log.debug("JSON", json);
+		log.info("JSON : " + json);
 		resp.getWriter().print(json);
 	}
 }

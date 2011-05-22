@@ -9,8 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.mortbay.log.Log;
-
 import com.krampstudio.nopas.model.Food;
 import com.krampstudio.nopas.model.PMF;
 
@@ -34,7 +32,7 @@ public class GetFoodServlet extends CommonServlet {
 			    query.setFilter("name == nameParam");
 			    query.declareParameters("String nameParam");
 		
-			    Log.debug("Query", query.toString());
+			    log.info("Query : " + query.toString());
 			    
 			    try {
 			        @SuppressWarnings("unchecked")

@@ -8,9 +8,10 @@ It's main purpose is to add easily the food eaten and to calculate the remaining
 
 The application is designed :
 
- - to run the server side on [Google App Engine](http://) 
+ - to run the server side on [Google App Engine](http://code.google.com/appengine/) 
  - by using [JQuery](http://www.jquery.com), [JQuery-UI](http://jqueryui.com/) and [Jquery-Mobile](http://www.jquerymobile.com) for the UI
  - to format the exchanged data in _JSON_ with the [GSON](http://sites.google.com/site/gson) library
  
 > _Copyright 2011, NoCarbo, [KrampStudio](http://www.krampstudio.com)_
+
 > _Licensed under GPL Version 3 license, [http://www.gnu.org/licenses/gpl.txt](http://www.gnu.org/licenses/gpl.txt)_ 
