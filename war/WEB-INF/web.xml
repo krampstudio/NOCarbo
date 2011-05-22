@@ -15,6 +15,15 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>GetFood</servlet-name>
+		<servlet-class>com.krampstudio.nopas.web.GetFoodServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetFood</servlet-name>
+		<url-pattern>/nopas/getFood</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>NoPas</servlet-name>
 		<servlet-class>com.krampstudio.nopas.web.NoPasServlet</servlet-class>
 	</servlet>

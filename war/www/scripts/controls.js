@@ -13,6 +13,10 @@ function formMessage(message, page){
 	}
 }
 
+function getToken(){
+	return $('#token').val();
+}
+
 /**
  * 
  */
@@ -20,15 +24,24 @@ $(document).bind("mobileinit", function(){
 		
 	$.mobile.ajaxFormsEnabled = false;
 	
+	
+	$('#add-food').live('pageshow',function(event){
+		$('#search-food').autocomplete({
+			source: "/nopas/getFood?token="+getToken(),
+			minLength: 2
+		});
+	});
+
+
+	
 	$('#food-save').live("click tap", function(event){
 		event.preventDefault();
 		event.stopPropagation();
 		
-		$.post('/nopas/addFood', $('#food-form').serialize(), function(response){
+		$.post('/nopas/addFood', $('#food-form, #token-form').serialize(), function(response){
 			if(response.foodAdded == true){
 				formMessage("Food saved!", $('#add-food'));
 			}
 		}, 'json');
-		
 	});
 });
