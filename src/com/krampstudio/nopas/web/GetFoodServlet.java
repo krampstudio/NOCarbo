@@ -1,6 +1,7 @@
 package com.krampstudio.nopas.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -16,40 +17,40 @@ public class GetFoodServlet extends CommonServlet {
 
 	private static final long serialVersionUID = -2652825230141405547L;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		doCheck(req, resp);
+		if(doCheck(req, resp)){
 		
-		if(req.getParameter("term") != null){
-		
-			String term = req.getParameter("term");
-			if(term.length() > 2){
+			List<Food> results = new ArrayList<Food>();
 			
-				PersistenceManager pm = PMF.getPersistenceManager();
-				Query query = pm.newQuery(Food.class);
-			    query.setFilter("name == nameParam");
-			    query.declareParameters("String nameParam");
-		
-			    log.info("Query : " + query.toString());
-			    
-			    try {
-			        @SuppressWarnings("unchecked")
-					List<Food> results = (List<Food>) query.execute(term);
-			        if (!results.isEmpty()) {
-			        	this.sendJson(resp, results); 
-			        } 
-			    } 
-			    catch(Exception e){
-			    	e.printStackTrace();
-			    }
-			    finally {
-			        query.closeAll();
-			    }
+			if(req.getParameter("term") != null){
+			
+				String term = req.getParameter("term").trim();
+				if(term.length() >= 2){
+				
+					PersistenceManager pm = PMF.getPersistenceManager();
+					Query query = pm.newQuery(Food.class);
+				    query.setFilter("this.name.startsWith(:term)");
+			
+				    log.info("Query : " + query.toString());
+				    
+				    try {
+						for(Food food : (List<Food>) query.execute(term)){
+							results.add(food);
+						}
+				    } 
+				    catch(Exception e){
+				    	e.printStackTrace();
+				    }
+				    finally {
+				        query.closeAll();
+				    }
+				}
 			}
+			this.sendJson(resp, results); 
 		}
 	}
-
-	
 }

@@ -77,12 +77,14 @@ public class CommonServlet extends HttpServlet {
 	 * @param resp
 	 * @throws IOException
 	 */
-	protected void doCheck(HttpServletRequest request, HttpServletResponse resp) throws IOException{
+	protected boolean doCheck(HttpServletRequest request, HttpServletResponse resp) throws IOException{
 		initToken(request);
 		if(!checkToken(request)){
-			log.info("\nToken prob:\n" + this.token + "\n"+request.getParameter("token"));
+			log.info("\n---\nToken issue :\n\tCurrent : " + this.token + "\n\tReceived : "+request.getParameter("token")+"\n---\n");
 			resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Security issue");
+			return false;
 		}
+		return true;
 	}
 	
 	/**

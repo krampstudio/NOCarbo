@@ -20,14 +20,33 @@ function getToken(){
 /**
  * 
  */
-$(document).bind("mobileinit", function(){
+$(document).bind('mobileinit', function(){
 		
 	$.mobile.ajaxFormsEnabled = false;
 	
 	
 	$('#add-food').live('pageshow',function(event){
 		$('#search-food').autocomplete({
-			source: "/nopas/getFood?token="+getToken(),
+			source: function(request, response){
+				$.ajax({
+					type	: 'GET',
+					url 	: '/nopas/getFood',
+					dataType: 'json',
+					data 	: {
+						token : getToken,
+						term  : request.term
+					},
+					success	: function(data){
+						response( $.map( data, function( item ) {
+							return {
+								id	 : item.key.id,
+								label: item.name,
+								value: item.name
+							}
+						}));
+					}
+				});
+			},
 			minLength: 2
 		});
 	});

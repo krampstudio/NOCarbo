@@ -18,33 +18,34 @@ public class AddFoodServlet extends CommonServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		doCheck(req, resp);
+		if(doCheck(req, resp)){
 
-		boolean foodAdded = false;
-		
-		PersistenceManager pm = PMF.getPersistenceManager();
-		
-		if(req.getParameter("food-name") != null){
+			boolean foodAdded = false;
 			
-			Food f = new Food();
-			f.setName(req.getParameter("food-name"));
-			f.setBrand(req.getParameter("food-brand"));
-			f.setDescription(req.getParameter("food-description"));
-	
-		    try {
-		    	pm.makePersistent(f);
-		    	this.model.put("food-id", f.getKey().getId());
-		    	foodAdded = true;
-		    } 
-		    finally {
-		    	pm.close();
-		    }
-		    
-		    
-		}
-		this.model.put("foodAdded", foodAdded);
+			PersistenceManager pm = PMF.getPersistenceManager();
+			
+			if(req.getParameter("food-name") != null){
+				
+				Food f = new Food();
+				f.setName(req.getParameter("food-name"));
+				f.setBrand(req.getParameter("food-brand"));
+				f.setDescription(req.getParameter("food-description"));
 		
-		this.sendJson(resp);
+			    try {
+			    	pm.makePersistent(f);
+			    	this.model.put("food-id", f.getKey().getId());
+			    	foodAdded = true;
+			    } 
+			    finally {
+			    	pm.close();
+			    }
+			    
+			    
+			}
+			this.model.put("foodAdded", foodAdded);
+			
+			this.sendJson(resp);
+		}
 	}
 
 	
