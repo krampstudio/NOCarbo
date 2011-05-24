@@ -17,8 +17,10 @@
 </head>
 <body>
 	
-	<form id="token-form" name="token-form" style="display:none;">
-		<input type="hidden" id="token" name="token" value="${sessionScope.token}" />
+	<form id="token-form" style="display:none;">
+		<div>
+			<input type="hidden" id="token" name="token" value="${sessionScope.token}" />
+		</div>
 	</form>
 	
 	<!-- Add PAS page -->
@@ -42,7 +44,6 @@
 			</form>
 			<hr />
 			<form id="food-form">
-				
 				<div data-role="fieldcontain">
 					<label for="food-name">Name</label>
 					<input id="food-name" name="food-name" type="text" />
@@ -63,8 +64,9 @@
 					</select> 
 				</div>
 				<div data-role="fieldcontain" >
-					<button id="food-save" rel="external" name="food-save" data-inline="true" data-theme="b">save</button>
-					<button id="food-remove" name="food-remove" disabled="true" data-inline="true">Remove</button>
+					<input type="hidden" id="food-id" name="food-id" />
+					<button id="food-save" name="food-save" data-inline="true" data-theme="b">save</button>
+					<button id="food-remove" name="food-remove" disabled="disabled" data-inline="true">Remove</button>
 				</div>
 			</form>
 		</div> 

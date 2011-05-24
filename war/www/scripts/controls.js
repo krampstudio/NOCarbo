@@ -38,16 +38,36 @@ $(document).bind('mobileinit', function(){
 					},
 					success	: function(data){
 						response( $.map( data, function( item ) {
+							var label = item.name;
+							if(item.description.length > 0){
+								label += ' (';
+								if(item.description.length > 30){
+									label += item.description.substr(0, 27) + '...';
+								}
+								else{
+									label += item.description;
+								}
+								label += ')';
+							}
+							
 							return {
 								id	 : item.key.id,
-								label: item.name,
-								value: item.name
+								label: label,
+								value: item.name,
+								brand: item.brand,
+								description: item.description
 							}
 						}));
 					}
 				});
 			},
-			minLength: 2
+			minLength: 2,
+			select: function( event, ui ) {
+				$('#food-id').val(ui.item.id);
+				$('#food-name').val(ui.item.value);
+				$('#food-description').val(ui.item.description);
+				$('#food-brand').val(ui.item.brand);
+			}
 		});
 	});
 
