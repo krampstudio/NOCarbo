@@ -30,7 +30,7 @@ $(document).bind('mobileinit', function(){
 			source: function(request, response){
 				$.ajax({
 					type	: 'GET',
-					url 	: '/nopas/getFood',
+					url 	: '/nopas/food',
 					dataType: 'json',
 					data 	: {
 						token : getToken,
@@ -77,7 +77,7 @@ $(document).bind('mobileinit', function(){
 		event.preventDefault();
 		event.stopPropagation();
 		
-		$.post('/nopas/addFood', $('#food-form, #token-form').serialize(), function(response){
+		$.post('/nopas/food', $('#food-form, #token-form').serialize(), function(response){
 			if(response.foodAdded == true){
 				formMessage("Food saved!", $('#add-food'));
 			}
