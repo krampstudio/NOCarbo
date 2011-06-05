@@ -16,13 +16,52 @@ import com.krampstudio.nopas.model.entities.PMF;
 public class FoodManager extends Manager{
 
 	/**
+	 * Get all the foods (paginated and ordered by name)
+	 * @param start
+	 * @param end
+	 * @return the list of foods
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Food> getAll(int start, int end){
+		
+		List<Food> results = null;
+		
+		PersistenceManager pm = PMF.getPersistenceManager();
+		Query query = pm.newQuery(Food.class);
+		query.setRange(start, end);
+		query.setOrdering("name asc");
+		
+		 log.info("Query : " + query.toString());
+		
+		try {
+			results = (List<Food>) query.execute();
+	    } 
+	    catch(Exception e){
+	    	e.printStackTrace();
+	    }
+	    finally {
+	        query.closeAll();
+	    }
+		return results;
+	}
+	
+	/**
+	 * conveniance method that retrieve the 1st 100 foods
+	 * @see FoodManager#getAll(int, int)
+	 * @return the list of foods
+	 */
+	public List<Food> getAll(){
+		return this.getAll(0, 100);
+	}
+	
+	/**
 	 * Search food by name
 	 * @param term the stating by term
 	 * @return the list of matching food
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Food> search(String term){
-		List<Food> results = new ArrayList<Food>();
+		List<Food> results = null;
 		PersistenceManager pm = PMF.getPersistenceManager();
 		Query query = pm.newQuery(Food.class);
 	    query.setFilter("this.name.startsWith(labelParam)");
@@ -31,9 +70,7 @@ public class FoodManager extends Manager{
 	    log.info("Query : " + query.toString());
 	    
 	    try {
-			for(Food food : (List<Food>) query.execute(term)){
-				results.add(food);
-			}
+	    	results = (List<Food>) query.execute(term);
 	    } 
 	    catch(Exception e){
 	    	e.printStackTrace();

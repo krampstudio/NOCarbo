@@ -24,9 +24,40 @@ $(document).bind('mobileinit', function(){
 		
 	$.mobile.ajaxFormsEnabled = false;
 	
+	/*
+	 * List page
+	 */
+	$('#list-food').live('pageshow',function(event){
+		
+		if($('#food-list li').length == 0){
+			$.get(
+				'/nopas/food', 
+				$('#token-form').serialize(), 
+				function(response){
+					$.tmpl("<li><a href='#food-${key.id}'>${name}</a></li>", response).appendTo("#food-list");
+					$('#food-list').listview('refresh');
+					$('#food-list').parent('div').height(parseInt($('#food-list').height()) - 15);
+				},
+				'json'
+			);
+		}
+	});
 	
-	$('#add-food').live('pageshow',function(event){
-		$('#search-food').autocomplete({
+	/**
+	 * 
+	 */
+	$('#search-food').live('pageshow',function(event){
+		
+		var pageId = '#' + $(this).attr('id');
+		
+		$(pageId + ' .ui-input-clear').live('click tap', function(event){
+			$(pageId + ' #search-form-container').hide();
+			$(pageId + ' #food-id').val('');
+			$(pageId + ' #food-name').val('');
+			$(pageId + ' #food-description').val('');
+			$(pageId + ' #food-brand').val('');
+		});
+		$(pageId+ ' #food-finder').autocomplete({
 			source: function(request, response){
 				$.ajax({
 					type	: 'GET',
@@ -37,6 +68,7 @@ $(document).bind('mobileinit', function(){
 						term  : request.term
 					},
 					success	: function(data){
+						$(pageId + ' #search-form-container').show();
 						response( $.map( data, function( item ) {
 							var label = item.name;
 							if(item.description.length > 0){
@@ -63,24 +95,32 @@ $(document).bind('mobileinit', function(){
 			},
 			minLength: 2,
 			select: function( event, ui ) {
-				$('#food-id').val(ui.item.id);
-				$('#food-name').val(ui.item.value);
-				$('#food-description').val(ui.item.description);
-				$('#food-brand').val(ui.item.brand);
+				$(pageId + ' #food-id').val(ui.item.id);
+				$(pageId + ' #food-name').val(ui.item.value);
+				$(pageId + ' #food-description').val(ui.item.description);
+				$(pageId + ' #food-brand').val(ui.item.brand);
 			}
 		});
 	});
 
 
 	
-	$('#food-save').live("click tap", function(event){
-		event.preventDefault();
-		event.stopPropagation();
+	
+	$('#save-food, #search-food').live('pageshow',function(event){
+	
+		var pageId = '#' + $(this).attr('id');
 		
-		$.post('/nopas/food', $('#food-form, #token-form').serialize(), function(response){
-			if(response.foodAdded == true){
-				formMessage("Food saved!", $('#add-food'));
-			}
-		}, 'json');
+		$(pageId + ' .food-save').live("click tap", function(event){
+			event.preventDefault();
+			event.stopPropagation();
+			
+			$.post('/nopas/food', $(pageId + ' .food-form, #token-form').serialize(), function(response){
+				if(response.foodAdded == true){
+					formMessage("Food saved!", $(pageId));
+				}
+			}, 'json');
+		});
 	});
+	
+	
 });

@@ -5,3 +5,17 @@
 	font-size:0.9em;
 	font-style: italic;	
 }
+div#header h1{
+	position:absolute;
+	right:1%;
+}
+div#header{
+	padding-left:5px;	
+}
+
+.ui-icon-myapp-add{
+	background-image: url('../imgs/add.png');	
+}
+.ui-icon-myapp-list{
+	background-image: url('../imgs/list.png');	
+}

@@ -5,6 +5,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
 >
+	<taglib>
+   		<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+    	<taglib-location>/WEB-INF/c.tld</taglib-location>
+  	</taglib>
 	<servlet>
 		<servlet-name>FoodServlet</servlet-name>
 		<servlet-class>com.krampstudio.nopas.web.FoodServlet</servlet-class>

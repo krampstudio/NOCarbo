@@ -9,14 +9,13 @@
 	<link rel="stylesheet" type="text/css" href="/www/styles/jquery.mobile/jquery.mobile.min.css" />
 	<link rel="stylesheet" type="text/css" href="/www/styles/style.css" />
 	
-	<script type="text/javascript" src="/www/scripts/jquery.min.js"></script>
-	<script type="text/javascript" src="/www/scripts/jquery-ui/jquery-ui.custom.min.js"></script>
+	<script type="text/javascript" src="/www/scripts/lib/jquery.min.js"></script>
+	<script type="text/javascript" src="/www/scripts/lib/jquery.tmpl.min.js"></script>
+	<script type="text/javascript" src="/www/scripts/lib/jquery-ui.custom.min.js"></script>
 	<script type="text/javascript" src="/www/scripts/controls.js"></script>
-	<script type="text/javascript" src="/www/scripts/jquery.mobile/jquery.mobile.min.js"></script>
-	
+	<script type="text/javascript" src="/www/scripts/lib/jquery.mobile.min.js"></script>
 </head>
 <body>
-	
 	<form id="token-form" style="display:none;">
 		<div>
 			<input type="hidden" id="token" name="token" value="${sessionScope.token}" />
@@ -31,48 +30,61 @@
 		</div> 
 		<%@ include file="footer.jsp" %>
 	</div> 
-
-	<!-- Add food page -->
-	<div id="add-food" data-role="page" data-theme="b">
+	
+		<!-- List food page -->
+	<div id="list-food" data-role="page" data-theme="b">
+		
 		<%@ include file="header.jsp" %>
+		
+		<%@ include file="food/menu.jsp" %>
+		
+		<%@ include file="message.jsp" %>
+		
 		<div  data-role="content" data-theme="d">
-			<form id="search-form">
-				<div data-role="fieldcontain">
-					<label for="search-food">Search for existing food</label>
-					<input id="search-food" name="search-food" type="text" data-inline="true"  data-type="search" data-inline="true"/>
-				</div>
-			</form>
-			<hr />
-			<form id="food-form">
-				<div data-role="fieldcontain">
-					<label for="food-name">Name</label>
-					<input id="food-name" name="food-name" type="text" />
-				</div>
-				<div data-role="fieldcontain">
-					<label for="food-description">Description</label>
-					<textarea id="food-description" name="food-description"></textarea>
-				</div>
-				<div data-role="fieldcontain">
-					<label for="food-brand">Brand</label>
-					<input id="food-brand" name="food-brand" type="text" />
-				</div>
-				<div data-role="fieldcontain">
-					<label for="food-menu">Add to today's menu</label>
-					<select name="food-menu" id="food-menu" data-role="slider">
-						<option value="no">No</option>
-						<option value="yes">Yes</option>
-					</select> 
-				</div>
-				<div data-role="fieldcontain" >
-					<input type="hidden" id="food-id" name="food-id" />
-					<button id="food-save" name="food-save" data-inline="true" data-theme="b">save</button>
-					<button id="food-remove" name="food-remove" disabled="disabled" data-inline="true">Remove</button>
-				</div>
-			</form>
+			<%@ include file="food/list.jsp" %>
 		</div> 
 		
 		<%@ include file="footer.jsp" %>
 	</div> 
+	
+		<!-- Search food page -->
+	<div id="search-food" data-role="page" data-theme="b">
+		
+		<%@ include file="header.jsp" %>
+		
+		<%@ include file="food/menu.jsp" %>
+		
+		<%@ include file="message.jsp" %>
+		
+		<div  data-role="content" data-theme="d">
+			<%@ include file="food/search.jsp" %>
+			
+			<div id="search-form-container" style="display:none;">
+				<%@ include file="food/form.jsp" %>
+			</div>
+		</div> 
+		
+		<%@ include file="footer.jsp" %>
+	</div> 
+
+	
+	<!-- Add/Edit food page -->
+	<div id="save-food" data-role="page" data-theme="b">
+		
+		<%@ include file="header.jsp" %>
+		
+		<%@ include file="food/menu.jsp" %>
+		
+		<%@ include file="message.jsp" %>
+		
+		<div  data-role="content" data-theme="d">
+			<%@ include file="food/form.jsp" %>
+		</div> 
+		
+		<%@ include file="footer.jsp" %>
+	</div> 
+	
+
 	
 </body>
 </html>
