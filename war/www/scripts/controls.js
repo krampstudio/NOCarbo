@@ -34,7 +34,7 @@ $(document).bind('mobileinit', function(){
 				'/nopas/food', 
 				$('#token-form').serialize(), 
 				function(response){
-					$.tmpl("<li><a href='#food-${key.id}'>${name}</a></li>", response).appendTo("#food-list");
+					$.tmpl("<li><a href='#food?key=${key}'>${name}</a></li>", response).appendTo("#food-list");
 					$('#food-list').listview('refresh');
 					$('#food-list').parent('div').height(parseInt($('#food-list').height()) - 15);
 				},
@@ -44,7 +44,7 @@ $(document).bind('mobileinit', function(){
 	});
 	
 	/**
-	 * 
+	 * search food page
 	 */
 	$('#search-food').live('pageshow',function(event){
 		
@@ -52,7 +52,7 @@ $(document).bind('mobileinit', function(){
 		
 		$(pageId + ' .ui-input-clear').live('click tap', function(event){
 			$(pageId + ' #search-form-container').hide();
-			$(pageId + ' #food-id').val('');
+			$(pageId + ' #food-key').val('');
 			$(pageId + ' #food-name').val('');
 			$(pageId + ' #food-description').val('');
 			$(pageId + ' #food-brand').val('');
@@ -68,7 +68,7 @@ $(document).bind('mobileinit', function(){
 						term  : request.term
 					},
 					success	: function(data){
-						$(pageId + ' #search-form-container').show();
+						
 						response( $.map( data, function( item ) {
 							var label = item.name;
 							if(item.description.length > 0){
@@ -83,7 +83,7 @@ $(document).bind('mobileinit', function(){
 							}
 							
 							return {
-								id	 : item.key.id,
+								key	 : item.key,
 								label: label,
 								value: item.name,
 								brand: item.brand,
@@ -95,7 +95,8 @@ $(document).bind('mobileinit', function(){
 			},
 			minLength: 2,
 			select: function( event, ui ) {
-				$(pageId + ' #food-id').val(ui.item.id);
+				$(pageId + ' #search-form-container').show();
+				$(pageId + ' #food-key').val(ui.item.id);
 				$(pageId + ' #food-name').val(ui.item.value);
 				$(pageId + ' #food-description').val(ui.item.description);
 				$(pageId + ' #food-brand').val(ui.item.brand);
@@ -105,20 +106,26 @@ $(document).bind('mobileinit', function(){
 
 
 	
-	
+	/**
+	 * Add food page
+	 */
 	$('#save-food, #search-food').live('pageshow',function(event){
 	
 		var pageId = '#' + $(this).attr('id');
 		
-		$(pageId + ' .food-save').live("click tap", function(event){
+		$(pageId + ' #food-save').live("click tap", function(event){
 			event.preventDefault();
 			event.stopPropagation();
+			
+			alert("sending form");
 			
 			$.post('/nopas/food', $(pageId + ' .food-form, #token-form').serialize(), function(response){
 				if(response.foodAdded == true){
 					formMessage("Food saved!", $(pageId));
 				}
 			}, 'json');
+			
+			return false;
 		});
 	});
 	

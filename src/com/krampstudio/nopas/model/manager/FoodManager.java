@@ -1,6 +1,5 @@
 package com.krampstudio.nopas.model.manager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -80,42 +79,24 @@ public class FoodManager extends Manager{
 	    }
 		return results;
 	}
-
+	
 	/**
 	 * Save a food entity
 	 * @param food the entity to save
 	 * @return true if saved
 	 */
 	public boolean save(Food food){
-		if(food.getKey() != null){
-			return this.update(food);
-		}
-		return this.add(food);
-	}
-	
-	/**
-	 * 
-	 * @param food
-	 * @return 
-	 */
-	private boolean add(Food food){
-		
 		boolean returnValue = false;
 		
 		PersistenceManager pm = PMF.getPersistenceManager();
 	    try {
 	    	pm.makePersistent(food);
-	    	returnValue  = (food.getKey().getId() > 0);
+	    	returnValue  = (food.getKey() != null);
 	    } 
 	    finally {
 	    	pm.close();
 	    }
 		
 		return returnValue;
-	}
-	
-	private boolean update(Food food){
-		
-		return false;
 	}
 }

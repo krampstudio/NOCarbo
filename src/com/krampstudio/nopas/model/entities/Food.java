@@ -1,18 +1,22 @@
 package com.krampstudio.nopas.model.entities;
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 public class Food {
 
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Key key;
+    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+    private String key;
 
+	@Extension(vendorName="datanucleus", key="gae.pk-name", value="true")
+	private String keyName;
+	
 	@Persistent
 	private String name;
 	
@@ -22,7 +26,10 @@ public class Food {
 	@Persistent
 	private String brand;
 	
-	public Key getKey(){
+	@Persistent
+	private FoodCategory category;
+	
+	public String getKey(){
 		return key;
 	}
 
@@ -31,6 +38,9 @@ public class Food {
 	}
 
 	public void setName(String name) {
+		if(this.key == null && this.keyName == null){
+			this.keyName = name;
+		}
 		this.name = name;
 	}
 
@@ -49,4 +59,13 @@ public class Food {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
+
+	public FoodCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(FoodCategory category) {
+		this.category = category;
+	}
+	
 }

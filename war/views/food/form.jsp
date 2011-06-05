@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.krampstudio.nopas.model.entities.FoodCategory"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <form class="food-form">
 	<div data-role="fieldcontain">
 		<label for="food-name">Name</label>
@@ -7,6 +9,16 @@
 	<div data-role="fieldcontain">
 		<label for="food-description">Description</label>
 		<textarea id="food-description" name="food-description"></textarea>
+	</div>
+	<div data-role="fieldcontain">
+		<label for="food-category">Category</label>
+		<c:set var="categories" value="<%=FoodCategory.values()%>"/>
+		<select id="food-category" name="food-category"  data-native-menu="true">
+			<option> ---  Select a category --- </option>
+		<c:forEach var="category" items="${categories}">
+			<option value="${category}"><c:out value="${category.description}" /></option>
+		</c:forEach>
+		</select>
 	</div>
 	<div data-role="fieldcontain">
 		<label for="food-brand">Brand</label>
@@ -20,7 +32,7 @@
 		</select> 
 	</div>
 	<div data-role="fieldcontain" >
-		<input type="hidden" id="food-id" name="food-id" />
+		<input type="hidden" id="food-key" name="food-key" />
 		<button id="food-save" name="food-save" data-inline="true" data-theme="b">save</button>
 		<button id="food-remove" name="food-remove" disabled="disabled" data-inline="true">Remove</button>
 	</div>
