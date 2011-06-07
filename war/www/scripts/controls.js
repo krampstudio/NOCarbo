@@ -28,6 +28,15 @@ $(document).bind('mobileinit', function(){
 	 * List page
 	 */
 	$('#list-food').live('pageshow',function(event){
+		console.log($('.ui-collapsible-contain').data('events'));
+		$('.ui-collapsible-contain').bind("expand", function(event){
+			console.log("expanded");
+			console.log(this);
+		});
+		$('.ui-collapsible-contain').bind("collapse", function(event){
+			console.log("collapsed");
+			console.log(this);
+		});
 		
 		if($('#food-list li').length == 0){
 			$.get(
