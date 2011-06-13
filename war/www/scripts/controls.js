@@ -28,27 +28,33 @@ $(document).bind('mobileinit', function(){
 	 * List page
 	 */
 	$('#list-food').live('pageshow',function(event){
-		console.log($('.ui-collapsible-contain').data('events'));
+	
 		$('.ui-collapsible-contain').bind("expand", function(event){
-			console.log("expanded");
-			console.log(this);
+			
+			refreshList($(this).find('ul.food-list').attr('id'));
 		});
 		$('.ui-collapsible-contain').bind("collapse", function(event){
-			console.log("collapsed");
-			console.log(this);
+
 		});
-		
-		if($('#food-list li').length == 0){
-			$.get(
-				'/nopas/food', 
-				$('#token-form').serialize(), 
-				function(response){
-					$.tmpl("<li><a href='#food?key=${key}'>${name}</a></li>", response).appendTo("#food-list");
-					$('#food-list').listview('refresh');
-					$('#food-list').parent('div').height(parseInt($('#food-list').height()) - 15);
-				},
-				'json'
-			);
+		function refreshList(listId){
+			var listEltId = '#'+listId;
+			
+			if($(listEltId + ' li').length == 0){
+				$.get(
+					'/nopas/food', 
+					{
+						token	 : getToken,
+						category : listId.replace('food-list-', '')
+					}, 
+					function(response){
+						$.tmpl("<li><a href='#food?key=${key}'>${name}</a></li>", response).appendTo(listEltId);
+						$(listEltId).listview('refresh');
+						
+						$(listEltId).parent('div').height(parseInt($(listEltId).height() + 30));
+					},
+					'json'
+				);
+			}
 		}
 	});
 	

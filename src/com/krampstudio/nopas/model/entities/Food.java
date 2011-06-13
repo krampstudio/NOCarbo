@@ -14,6 +14,7 @@ public class Food {
     @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
     private String key;
 
+	@Persistent
 	@Extension(vendorName="datanucleus", key="gae.pk-name", value="true")
 	private String keyName;
 	

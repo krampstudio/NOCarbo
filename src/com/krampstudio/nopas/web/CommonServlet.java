@@ -81,8 +81,8 @@ public class CommonServlet extends HttpServlet {
 		initToken(request);
 		if(!checkToken(request)){
 			log.info("\n---\nToken issue :\n\tCurrent : " + this.token + "\n\tReceived : "+request.getParameter("token")+"\n---\n");
-			resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Security issue");
-			return false;
+		//	resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Security issue");
+		//	return false;
 		}
 		return true;
 	}

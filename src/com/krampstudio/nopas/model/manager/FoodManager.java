@@ -6,6 +6,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.krampstudio.nopas.model.entities.Food;
+import com.krampstudio.nopas.model.entities.FoodCategory;
 import com.krampstudio.nopas.model.entities.PMF;
 
 /**
@@ -30,10 +31,34 @@ public class FoodManager extends Manager{
 		query.setRange(start, end);
 		query.setOrdering("name asc");
 		
-		 log.info("Query : " + query.toString());
-		
 		try {
 			results = (List<Food>) query.execute();
+	    } 
+	    catch(Exception e){
+	    	e.printStackTrace();
+	    }
+	    finally {
+	        query.closeAll();
+	    }
+		return results;
+	}
+	
+	/**
+	 * 
+	 * @param category
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Food> getAllByCategory(FoodCategory category){
+		List<Food> results = null;
+		
+		PersistenceManager pm = PMF.getPersistenceManager();
+		Query query = pm.newQuery(Food.class);
+		query.setFilter("category == :1");
+		query.setOrdering("name asc");
+		
+		try {
+			results = (List<Food>) query.execute(category.name());
 	    } 
 	    catch(Exception e){
 	    	e.printStackTrace();
@@ -55,21 +80,24 @@ public class FoodManager extends Manager{
 	
 	/**
 	 * Search food by name
+	 * 
+	 * Searching method using the tips of {@linkplain http://googlecode.blogspot.com/2010/05/google-app-engine-basic-text-search.html}
+	 * 
 	 * @param term the stating by term
 	 * @return the list of matching food
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Food> search(String term){
+		
 		List<Food> results = null;
+
+		term = (term != null ? term.toLowerCase() : "").trim();
+		
 		PersistenceManager pm = PMF.getPersistenceManager();
 		Query query = pm.newQuery(Food.class);
-	    query.setFilter("this.name.startsWith(labelParam)");
-	    query.declareParameters("java.lang.String labelParam");
-
-	    log.info("Query : " + query.toString());
-	    
+		query.setFilter("name >= :1 && name < :2");
 	    try {
-	    	results = (List<Food>) query.execute(term);
+	    	results = (List<Food>) query.execute(term, (term + "\ufffd"));
 	    } 
 	    catch(Exception e){
 	    	e.printStackTrace();

@@ -80,6 +80,20 @@ public class FoodServlet extends CommonServlet {
 				}
 			}
 			
+			else if(req.getParameter("category") != null){
+			
+				int categoryId = Integer.parseInt(req.getParameter("category"));
+				for(FoodCategory category : FoodCategory.values()){
+					if (category.getId() == categoryId){
+						
+						foods = foodMgr.getAllByCategory(category);
+						
+						break;
+					}
+				}
+				
+			}
+			
 			//list / get all
 			else{
 				foods = foodMgr.getAll();
