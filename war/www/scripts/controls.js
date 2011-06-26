@@ -6,7 +6,7 @@
 function formMessage(message, page){
 	var $saveElt = $('.message-box', page);
 	if($saveElt.css('display') == 'none'){
-		$saveElt.text('saved').slideToggle('slow');
+		$saveElt.text(message).slideToggle('slow');
 		setTimeout(function(){
 			$saveElt.empty().slideToggle('slow');
 		}, 3000);
@@ -132,11 +132,13 @@ $(document).bind('mobileinit', function(){
 			event.preventDefault();
 			event.stopPropagation();
 			
-			alert("sending form");
-			
 			$.post('/nopas/food', $(pageId + ' .food-form, #token-form').serialize(), function(response){
-				if(response.foodAdded == true){
-					formMessage("Food saved!", $(pageId));
+				if(response.saved == true){
+					formMessage("Food : " + response.item.name + " saved!", $(pageId));
+					$(':input' , pageId + ' .food-form').val('');
+					var categorySelector = $('#food-category', pageId + ' .food-form').first();
+					categorySelector.selectedIndex = 0;
+					categorySelector.selectmenu("refresh");
 				}
 			}, 'json');
 			

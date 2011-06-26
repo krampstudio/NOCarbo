@@ -46,9 +46,9 @@ public class FoodServlet extends CommonServlet {
 				food.setCategory(FoodCategory.valueOf(req.getParameter("food-category")));
 		
 				foodAdded = foodMgr.save(food);
-				
+				this.model.put("item", food);
 			}
-			this.model.put("foodAdded", foodAdded);
+			this.model.put("saved", foodAdded);
 			
 			this.sendJson(resp);
 		}
